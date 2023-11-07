@@ -57,7 +57,7 @@ const DocumentUploader: React.FC = () => {
   };
 
   const resetInput = () => {
-    setSelectedFiles(null);
+    setSelectedFiles([]);
     setInputStatus("idle");
     setButtonStatus("ready");
   };
