@@ -12,7 +12,7 @@ import {
 const DocumentUploader: React.FC = () => {
   const [inputStatus, setInputStatus] = useState<string>("idle");
   const [buttonStatus, setButtonStatus] = useState<string>("ready");
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
 //  useEffect(() => {
 //    if (selectedFile) {
