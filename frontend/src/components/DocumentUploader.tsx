@@ -12,7 +12,7 @@ import {
 const DocumentUploader: React.FC = () => {
   const [inputStatus, setInputStatus] = useState<string>("idle");
   const [buttonStatus, setButtonStatus] = useState<string>("ready");
-  const [selectedFiles, setSelectedFiles] = useState<File | null>([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
 //  useEffect(() => {
 //    if (selectedFile) {
@@ -26,21 +26,21 @@ const DocumentUploader: React.FC = () => {
 
   const handleFilesChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    setSelectedFiles(files || null);
+    setSelectedFiles(files);
   };
 
   const uploadFiles = async () => {
-    selectedFiles.forEach(File => {
+    selectedFiles.forEach(file => {
       setButtonStatus("uploading");
       await API.get("serverless-pdf-chat", "/generate_presigned_url", {
         headers: { "Content-Type": "application/json" },
         queryStringParameters: {
-          file_name: selectedFile?.name,
+          file_name: selectedFiles?.name,
         },
       }).then((presigned_url) => {
         fetch(presigned_url.presignedurl, {
           method: "PUT",
-          body: selectedFile,
+          body: selectedFiles,
           headers: { "Content-Type": "application/pdf" },
         }).then(() => {
           setButtonStatus("success");
@@ -50,7 +50,7 @@ const DocumentUploader: React.FC = () => {
   };
 
   const resetInput = () => {
-    setSelectedFile(null);
+    setSelectedFiles(null);
     setInputStatus("idle");
     setButtonStatus("ready");
   };
@@ -91,9 +91,9 @@ const DocumentUploader: React.FC = () => {
               <div className="flex flex-row items-center mb-5">
                 <DocumentIcon className="w-14 h-14 text-gray-400" />
                 <div className="flex flex-col ml-2">
-                  <p className="font-bold mb-1">{selectedFile?.name}</p>
+                  <p className="font-bold mb-1">{selectedFiles?.name}</p>
                   <p>
-                    {filesize(selectedFile ? selectedFile.size : 0).toString()}
+                    {filesize(selectedFiles ? selectedFiles.size : 0).toString()}
                   </p>
                 </div>
               </div>
