@@ -25,7 +25,7 @@ const DocumentUploader: React.FC = () => {
 //  }, [selectedFile]);
 
   const handleFilesChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+    const files = Array.from(event.target.files);
     setSelectedFiles(files);
   };
 
