@@ -41,12 +41,12 @@ const DocumentUploader: React.FC = () => {
         await API.get("serverless-pdf-chat", "/generate_presigned_url", {
           headers: { "Content-Type": "application/json" },
           queryStringParameters: {
-            file_name: selectedFiles?.name,
+            file_name: file.name,
           },
         }).then((presigned_url) => {
           fetch(presigned_url.presignedurl, {
             method: "PUT",
-            body: selectedFiles,
+            body: file,
             headers: { "Content-Type": "application/pdf" },
           }).then(() => {
             setButtonStatus("success");
@@ -97,11 +97,11 @@ const DocumentUploader: React.FC = () => {
             <>
               <div className="flex flex-row items-center mb-5">
                 <DocumentIcon className="w-14 h-14 text-gray-400" />
-                <div className="flex flex-col ml-2">
+{/*                <div className="flex flex-col ml-2">
                   <p className="font-bold mb-1">{selectedFiles?.name}</p>
                   <p>
                     {filesize(selectedFiles ? selectedFiles.size : 0).toString()}
-                  </p>
+                  </p>*/}
                 </div>
               </div>
               <div className="flex flex-row items-center">
