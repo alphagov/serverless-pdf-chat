@@ -35,22 +35,24 @@ const DocumentUploader: React.FC = () => {
   };
 
   const uploadFiles = async () => {
-    selectedFiles.forEach(file => {
-      setButtonStatus("uploading");
-      await API.get("serverless-pdf-chat", "/generate_presigned_url", {
-        headers: { "Content-Type": "application/json" },
-        queryStringParameters: {
-          file_name: selectedFiles?.name,
-        },
-      }).then((presigned_url) => {
-        fetch(presigned_url.presignedurl, {
-          method: "PUT",
-          body: selectedFiles,
-          headers: { "Content-Type": "application/pdf" },
-        }).then(() => {
-          setButtonStatus("success");
+    selectedFiles.forEach(async file => {
+      (async () => {
+        setButtonStatus("uploading");
+        await API.get("serverless-pdf-chat", "/generate_presigned_url", {
+          headers: { "Content-Type": "application/json" },
+          queryStringParameters: {
+            file_name: selectedFiles?.name,
+          },
+        }).then((presigned_url) => {
+          fetch(presigned_url.presignedurl, {
+            method: "PUT",
+            body: selectedFiles,
+            headers: { "Content-Type": "application/pdf" },
+          }).then(() => {
+            setButtonStatus("success");
+          });
         });
-      });
+      })();
     });
   };
 
