@@ -12,37 +12,39 @@ import {
 const DocumentUploader: React.FC = () => {
   const [inputStatus, setInputStatus] = useState<string>("idle");
   const [buttonStatus, setButtonStatus] = useState<string>("ready");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File | null>([]);
 
-  useEffect(() => {
-    if (selectedFile) {
-      if (selectedFile.type === "application/pdf") {
-        setInputStatus("valid");
-      } else {
-        setSelectedFile(null);
-      }
-    }
-  }, [selectedFile]);
+//  useEffect(() => {
+//    if (selectedFile) {
+//      if (selectedFile.type === "application/pdf") {
+//        setInputStatus("valid");
+//      } else {
+//        setSelectedFile(null);
+//      }
+//    }
+//  }, [selectedFile]);
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setSelectedFile(file || null);
+  const handleFilesChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    setSelectedFiles(files || null);
   };
 
-  const uploadFile = async () => {
-    setButtonStatus("uploading");
-    await API.get("serverless-pdf-chat", "/generate_presigned_url", {
-      headers: { "Content-Type": "application/json" },
-      queryStringParameters: {
-        file_name: selectedFile?.name,
-      },
-    }).then((presigned_url) => {
-      fetch(presigned_url.presignedurl, {
-        method: "PUT",
-        body: selectedFile,
-        headers: { "Content-Type": "application/pdf" },
-      }).then(() => {
-        setButtonStatus("success");
+  const uploadFiles = async () => {
+    selectedFiles.forEach(File => {
+      setButtonStatus("uploading");
+      await API.get("serverless-pdf-chat", "/generate_presigned_url", {
+        headers: { "Content-Type": "application/json" },
+        queryStringParameters: {
+          file_name: selectedFile?.name,
+        },
+      }).then((presigned_url) => {
+        fetch(presigned_url.presignedurl, {
+          method: "PUT",
+          body: selectedFile,
+          headers: { "Content-Type": "application/pdf" },
+        }).then(() => {
+          setButtonStatus("success");
+        });
       });
     });
   };
@@ -73,9 +75,10 @@ const DocumentUploader: React.FC = () => {
             </div>
 
             <input
-              onChange={handleFileChange}
+              onChange={handleFilesChange}
               id="dropzone-file"
               type="file"
+              multiple
               className="hidden"
             />
           </label>
@@ -128,7 +131,7 @@ const DocumentUploader: React.FC = () => {
                 )}
                 {buttonStatus === "ready" && (
                   <button
-                    onClick={uploadFile}
+                    onClick={uploadFiles}
                     type="button"
                     className="inline-flex items-center bg-violet-900 text-white border border-gray-300 focus:outline-none hover:bg-violet-700 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg px-3 py-2 text-sm mr-2 mb-2 "
                   >
@@ -139,7 +142,7 @@ const DocumentUploader: React.FC = () => {
                 {buttonStatus === "uploading" && (
                   <button
                     disabled
-                    onClick={uploadFile}
+                    onClick={uploadFiles}
                     type="button"
                     className="inline-flex items-center bg-violet-900 text-white border border-gray-300 focus:outline-none hover:bg-violet-700 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg px-3 py-2 text-sm mr-2 mb-2 "
                   >
@@ -166,7 +169,7 @@ const DocumentUploader: React.FC = () => {
                 {buttonStatus === "success" && (
                   <button
                     disabled
-                    onClick={uploadFile}
+                    onClick={uploadFiles}
                     type="button"
                     className="inline-flex items-center bg-violet-900 text-white border border-gray-300 focus:outline-none hover:bg-violet-700 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg px-3 py-2 text-sm mr-2 mb-2 "
                   >
