@@ -14,15 +14,15 @@ const DocumentUploader: React.FC = () => {
   const [buttonStatus, setButtonStatus] = useState<string>("ready");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-//  useEffect(() => {
-//    if (selectedFile) {
+  useEffect(() => {
+    if (selectedFiles) {
 //      if (selectedFile.type === "application/pdf") {
-//        setInputStatus("valid");
+        setInputStatus("valid");
 //      } else {
 //        setSelectedFile(null);
 //      }
-//    }
-//  }, [selectedFile]);
+    }
+  }, [selectedFiles]);
 
   const handleFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
