@@ -10,19 +10,19 @@ import {
 } from "@heroicons/react/24/outline";
 
 const DocumentUploader: React.FC = () => {
-  const [inputStatus, setInputStatus] = useState<string>("idle");
+  const [inputStatus, setInputStatus] = useState<string>("valid");
   const [buttonStatus, setButtonStatus] = useState<string>("ready");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  useEffect(() => {
-    if (selectedFiles) {
+//  useEffect(() => {
+//    if (selectedFiles) {
 //      if (selectedFile.type === "application/pdf") {
-        setInputStatus("valid");
+//        setInputStatus("valid");
 //      } else {
 //        setSelectedFile(null);
 //      }
-    }
-  }, [selectedFiles]);
+//    }
+//  }, [selectedFiles]);
 
   const handleFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
