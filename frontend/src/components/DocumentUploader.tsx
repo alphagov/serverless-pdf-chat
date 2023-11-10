@@ -98,9 +98,9 @@ const DocumentUploader: React.FC = () => {
               <div className="flex flex-row items-center mb-5">
                 <DocumentIcon className="w-14 h-14 text-gray-400" />
                 <div className="flex flex-col ml-2">
-{/*                  <p className="font-bold mb-1">{selectedFiles?.name}</p>
+                  <p className="font-bold mb-1">{selectedFiles[0].name}</p>
                   <p>
-                    {filesize(selectedFiles ? selectedFiles.size : 0).toString()}
+{/*                    {filesize(selectedFiles ? selectedFiles.size : 0).toString()}
                   </p>*/}
                 </div>
               </div>
