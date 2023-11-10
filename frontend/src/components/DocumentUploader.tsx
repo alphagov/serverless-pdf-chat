@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 const DocumentUploader: React.FC = () => {
-  const [inputStatus, setInputStatus] = useState<string>("valid");
+  const [inputStatus, setInputStatus] = useState<string>("idle");
   const [buttonStatus, setButtonStatus] = useState<string>("ready");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
